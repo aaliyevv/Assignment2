@@ -34,6 +34,9 @@ class ProductDisplay {
         const productElement = document.createElement('div');
         productElement.className = 'product-card';
         productElement.innerHTML = this.getProductHTML(product);
+
+        productElement.addEventListener('click', () => this.openProductDetail(product));
+
         return productElement;
     }
 
@@ -51,6 +54,12 @@ class ProductDisplay {
             </div>
         `;
     }
+
+    openProductDetail(product) {
+        localStorage.setItem('selectedProduct', JSON.stringify(product));
+        window.location.href = 'product-detail.html';
+    }    
+
 }
 
 new ProductDisplay('https://dummyjson.com/products');
