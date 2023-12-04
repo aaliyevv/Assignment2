@@ -122,3 +122,43 @@ footer {
     opacity: 0.8; 
 }
 }
+
+#search-container {
+    text-align: center;
+    margin: 20px 0; 
+}
+
+#search-input {
+    font-family: 'Helvetica Neue', sans-serif;
+    font-size: 1em;
+    padding: 10px;
+    border: 2px solid #483c32; 
+    border-radius: 5px; 
+    width: 50%; 
+    max-width: 400px; 
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+#search-container button {
+    font-family: 'Helvetica Neue', sans-serif;
+    font-size: 1em;
+    padding: 10px 20px;
+    margin-left: 10px; 
+    background-color: #483c32; 
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease;
+
+#search-container button:hover {
+    background-color: #3b3229;
+}
+
+@media (max-width: 600px) {
+    #search-input {
+        width: 70%;
+    }
+}
+}

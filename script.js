@@ -1,6 +1,7 @@
 class ProductDisplay {
     constructor(apiURL) {
         this.apiURL = apiURL;
+        this.products = [];
         this.init();
     }
 
@@ -22,11 +23,13 @@ class ProductDisplay {
             throw new Error(`HTTP error! Status: ${response.status}`);
         }
         const data = await response.json();
-        this.displayProducts(data.products);
+        this.products = data.products;
+        this.displayProducts(this.products);
     }
 
     displayProducts(products) {
         const container = document.getElementById('products-container');
+        container.innerHTML = '';
         products.forEach(product => container.appendChild(this.createProductElement(product)));
     }
 
@@ -34,9 +37,7 @@ class ProductDisplay {
         const productElement = document.createElement('div');
         productElement.className = 'product-card';
         productElement.innerHTML = this.getProductHTML(product);
-
         productElement.addEventListener('click', () => this.openProductDetail(product));
-
         return productElement;
     }
 
@@ -57,9 +58,19 @@ class ProductDisplay {
 
     openProductDetail(product) {
         localStorage.setItem('selectedProduct', JSON.stringify(product));
-        window.location.href = 'product-detail.html';
-    }    
+        window.location.href = 'product-detail.html'; 
+    }
 
+    searchProducts() {
+        const searchInput = document.getElementById('search-input');
+        const keyword = searchInput.value.toLowerCase();
+        const filteredProducts = this.products.filter(product => 
+            product.title.toLowerCase().includes(keyword) ||
+            product.description.toLowerCase().includes(keyword) ||
+            product.category.toLowerCase().includes(keyword)
+        );
+        this.displayProducts(filteredProducts);
+    }
 }
 
-new ProductDisplay('https://dummyjson.com/products');
+const productDisplay = new ProductDisplay('https://dummyjson.com/products');
