@@ -19,9 +19,15 @@
         <button onclick="productDisplay.searchProducts()">Search</button>
     </div>
 
-    <div id="products-container">
-
+    <div id="filter-container">
+        <select id="category-select">
+            <option value="all">All Categories</option>
+        </select>
+        <button onclick="productDisplay.filterByCategory()">Filter</button>
     </div>
+
+    <div id="products-container"></div>
+    <div id="pagination-container"></div>
 
     <footer>
         <p>Contact ✉️ aaliyev14291@ada.edu.az</p>

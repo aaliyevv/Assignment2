@@ -3,6 +3,8 @@ class ProductDisplay {
         this.apiURL = apiURL;
         this.products = [];
         this.init();
+        this.currentPage = 1;
+        this.productsPerPage = 10;
     }
 
     init() {
@@ -25,13 +27,56 @@ class ProductDisplay {
         const data = await response.json();
         this.products = data.products;
         this.displayProducts(this.products);
+        this.populateCategoryDropdown();
+    }
+
+    populateCategoryDropdown() {
+        const categories = new Set(this.products.map(product => product.category));
+        const select = document.getElementById('category-select');
+        categories.forEach(category => {
+            const option = document.createElement('option');
+            option.value = category;
+            option.textContent = category;
+            select.appendChild(option);
+        });
+    }
+
+    filterByCategory() {
+        const selectedCategory = document.getElementById('category-select').value;
+        const filteredProducts = this.products.filter(product =>
+            selectedCategory === 'all' || product.category === selectedCategory
+        );
+        this.displayProducts(filteredProducts);
     }
 
     displayProducts(products) {
         const container = document.getElementById('products-container');
         container.innerHTML = '';
-        products.forEach(product => container.appendChild(this.createProductElement(product)));
+
+        const startIndex = (this.currentPage - 1) * this.productsPerPage;
+        const endIndex = startIndex + this.productsPerPage;
+        const productsToShow = products.slice(startIndex, endIndex);
+
+        productsToShow.forEach(product => container.appendChild(this.createProductElement(product)));
+
+        this.createPaginationControls(products.length);
     }
+
+    createPaginationControls(totalProducts) {
+        const paginationContainer = document.getElementById('pagination-container');
+        paginationContainer.innerHTML = '';
+
+        const totalPages = Math.ceil(totalProducts / this.productsPerPage);
+
+        for (let i = 1; i <= totalPages; i++) {
+            const pageButton = document.createElement('button');
+            pageButton.textContent = i;
+            pageButton.onclick = () => {
+                this.currentPage = i;
+                this.displayProducts(this.products);
+            };
+            paginationContainer.appendChild(pageButton);
+        }}
 
     createProductElement(product) {
         const productElement = document.createElement('div');
