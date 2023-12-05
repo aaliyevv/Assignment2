@@ -13,12 +13,12 @@ class ProductDisplay {
 
     async fetchProducts() {
         try {
-            const response = await fetch(this.apiURL);
+            const response = await fetch(`${this.apiURL}?limit=100`);
             this.handleResponse(response);
         } catch (error) {
             console.error('Error fetching data:', error);
         }
-    }
+    }    
 
     async handleResponse(response) {
         if (!response.ok) {
